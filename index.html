@@ -209,6 +209,82 @@
                     });
             });
 
+            // recup du btn suivant et precedent
+            const nextBtn = $('#next');
+            const prevBtn = $('#prev');
+
+            // recup des slides 
+            const slides = $('.carousel-slides');
+
+            // index de la slide actuelle
+            let currentIndex = 0;
+            const totalSlides = $('.slide').length;
+
+            // event click suivant
+
+            nextBtn.on('click', function () {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            });
+
+            // event retour
+
+            prevBtn.on('click', function () {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            });
+
+            // fonction MAJcarousel
+            function updateCarousel() {
+                const offset = -currentIndex * 600; // largeur de chaque slide
+                gsap.to(slides, {
+                    duration: 0.5,
+                    x: offset,
+                    ease: "power2.out"
+                });
+
+                // mettre à jour les points
+                $('.dot').removeClass('active');
+                $(`.dot[data-index=${currentIndex}]`).addClass('active');
+            }
+
+            // nav sur les dots 
+
+            $('.dot').on('click', function () {
+                currentIndex = $(this).data('index');
+                updateCarousel();
+            });
+
+            // Bonus : Ajouter un défilement automatique toutes les 3 secondes
+
+            // setInterval(function () {
+            //     currentIndex = (currentIndex + 1) % totalSlides;
+            //     updateCarousel();
+            // }, 3000);
+
+
+            
+            // Bonus : Mettre en pause le défilement au survol
+
+            let autoSlide = setInterval(function () {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            }, 3000);
+
+            $('.carousel-container').hover(
+                function () {
+                    // mouseenter - pause l'auto-scroll
+                    clearInterval(autoSlide);
+                },
+                function () {
+                    // mouseleave - redémarre l'auto-scroll
+                    autoSlide = setInterval(function () {
+                        currentIndex = (currentIndex + 1) % totalSlides;
+                        updateCarousel();
+                    }, 3000);
+                }
+            );
+
         </script>
     </body>
 
