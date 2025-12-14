@@ -75,7 +75,56 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script>
-        // Votre code ici
+        // récuperer le bouton
+
+        const menuBtn = $('.menu-btn');
+
+        // animer laffichage du menu au click du btn 
+
+        menuBtn.on('click', function () {
+
+            // avec gsap, entrée du menu par la droite + stagger
+
+            gsap.to('.menu',
+            { duration: 0.5,
+                right: 0,
+                ease: "power2.out"
+            });
+            gsap.to('.menu li',
+            { duration: 0.5,
+                x: 0,
+                opacity: 1,
+                stagger: 0.1,
+                delay: 0.2,
+                ease: "power2.out"
+            });
+        });
+
+        // recuperer btn close menu 
+
+        const closeBtn = $('.close-menu');
+
+        // animer fermeture 
+
+        closeBtn.on('click', function () {
+
+            // avec gsap, sortie du menu par la droite + masquer element de la liste
+
+            gsap.to('.menu li',
+            { duration: 0.3,
+                x: 50,
+                opacity: 0,
+                stagger: 0.1,
+                ease: "power2.in"
+            });
+            gsap.to('.menu',
+            { duration: 0.3,
+                right: -300,
+                delay: 0.2,
+                ease: "power2.in"
+            });
+        });
+
     </script>
 </body>
 
