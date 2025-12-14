@@ -3,15 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Menu Animé - jQuery + GSAP</title>
+    <title>Portfolio - jQuery + GSAP</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* MENU NAVIGATION */
         .menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
             padding: 15px 30px;
             background: #3498db;
             color: white;
@@ -19,17 +28,20 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 18px;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .menu {
             position: fixed;
             top: 0;
-            right: -300px;
-            width: 300px;
+            right: -350px;
+            width: 350px;
             height: 100vh;
             background: #2c3e50;
-            padding: 50px 20px;
+            padding: 80px 30px;
             box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 999;
         }
 
         .menu ul {
@@ -40,9 +52,16 @@
         .menu li {
             padding: 20px;
             color: white;
-            font-size: 20px;
+            font-size: 22px;
             opacity: 0;
             transform: translateX(50px);
+            cursor: pointer;
+            transition: background 0.3s;
+            border-radius: 5px;
+        }
+
+        .menu li:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .close-menu {
@@ -52,334 +71,670 @@
             background: transparent;
             border: none;
             color: white;
-            font-size: 30px;
+            font-size: 35px;
             cursor: pointer;
         }
 
-        .carousel-container {
-            max-width: 600px;
-            margin: 50px auto;
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .carousel-slides {
-            display: flex;
-            width: 400%;
-            /* 4 images */
-        }
-
-        .slide {
-            width: 25%;
-            /* 100% / 4 */
-            flex-shrink: 0;
-        }
-
-        .slide img {
-            width: 100%;
-            display: block;
-        }
-
-        .carousel-nav {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .carousel-nav button {
-            padding: 10px 20px;
-            margin: 0 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .dots {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ccc;
-            display: inline-block;
-            margin: 0 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .dot.active {
-            background: #3498db;
-        }
-
-        section {
+        /* HERO SECTION */
+        .hero {
             min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
+        .hero-content {
+            z-index: 2;
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: 5rem;
             margin-bottom: 20px;
+            opacity: 0;
         }
 
-        .features {
-            background: #f8f9fa;
+        .hero p {
+            font-size: 1.5rem;
+            opacity: 0;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-        }
-
-        .feature-card {
+        .hero-cta {
+            margin-top: 30px;
+            padding: 15px 40px;
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .cta {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-        }
-
-        .cta-button {
-            padding: 20px 50px;
-            background: #3498db;
-            color: white;
+            color: #667eea;
             border: none;
             border-radius: 50px;
             font-size: 1.2rem;
             cursor: pointer;
+            opacity: 0;
+            font-weight: bold;
+        }
+
+        /* PORTFOLIO SECTION */
+        .portfolio {
+            min-height: 100vh;
+            padding: 80px 50px;
+            background: #f8f9fa;
+        }
+
+        .portfolio h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 50px;
+            color: #2c3e50;
+        }
+
+        .filter-buttons {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            margin: 0 10px;
+            background: white;
+            border: 2px solid #3498db;
+            color: #3498db;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 25px;
+        }
+
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .project-info p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #3498db;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* CONTACT SECTION */
+        .contact {
+            min-height: 100vh;
+            padding: 80px 50px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact h2 {
+            font-size: 3rem;
+            margin-bottom: 50px;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .success-message {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #2ecc71;
             margin-top: 20px;
+            display: none;
         }
     </style>
 </head>
 
 <body>
-    <button class="menu-btn">☰ Ouvrir le menu</button>
+    <!-- Menu Navigation -->
+    <button class="menu-btn">☰ Menu</button>
 
     <div class="menu">
         <button class="close-menu">×</button>
         <ul>
-            <li>Accueil</li>
-            <li>À propos</li>
-            <li>Services</li>
-            <li>Portfolio</li>
-            <li>Contact</li>
+            <li data-section="hero">Accueil</li>
+            <li data-section="portfolio">Portfolio</li>
+            <li data-section="contact">Contact</li>
         </ul>
     </div>
 
-    <body>
-        <div class="carousel-container">
-            <div class="carousel-slides">
-                <div class="slide"><img src="https://picsum.photos/600/400?random=1" alt="Image 1"></div>
-                <div class="slide"><img src="https://picsum.photos/600/400?random=2" alt="Image 2"></div>
-                <div class="slide"><img src="https://picsum.photos/600/400?random=3" alt="Image 3"></div>
-                <div class="slide"><img src="https://picsum.photos/600/400?random=4" alt="Image 4"></div>
-            </div>
-        </div>
-
-        <div class="carousel-nav">
-            <button id="prev">← Précédent</button>
-            <button id="next">Suivant →</button>
-        </div>
-
-        <div class="dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-            <span class="dot" data-index="3"></span>
-        </div>
-
-    <section class="hero">
-        <div>
-            <h1 class="hero-title">Bienvenue sur notre site</h1>
-            <p class="hero-subtitle">Des animations fluides avec GSAP et jQuery</p>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>Portfolio Créatif</h1>
+            <p>Designer & Développeur Web</p>
+            <button class="hero-cta">Voir mes projets</button>
         </div>
     </section>
 
-    <section class="features">
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Rapide</h3>
-                <p>Performance optimale garantie</p>
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <h2>Mes Projets</h2>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="web">Web</button>
+            <button class="filter-btn" data-filter="mobile">Mobile</button>
+            <button class="filter-btn" data-filter="design">Design</button>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card" data-category="web">
+                <img src="https://picsum.photos/400/300?random=1" alt="Projet 1">
+                <div class="project-info">
+                    <h3>Site E-commerce</h3>
+                    <p>Boutique en ligne moderne avec panier et paiement sécurisé</p>
+                    <span class="project-category">Web</span>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎨</div>
-                <h3>Design moderne</h3>
-                <p>Interface élégante et intuitive</p>
+
+            <div class="project-card" data-category="mobile">
+                <img src="https://picsum.photos/400/300?random=2" alt="Projet 2">
+                <div class="project-info">
+                    <h3>App Fitness</h3>
+                    <p>Application mobile de suivi d'activité physique</p>
+                    <span class="project-category">Mobile</span>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3>Facile</h3>
-                <p>Simple à utiliser et à personnaliser</p>
+
+            <div class="project-card" data-category="design">
+                <img src="https://picsum.photos/400/300?random=3" alt="Projet 3">
+                <div class="project-info">
+                    <h3>Branding Startup</h3>
+                    <p>Identité visuelle complète pour startup tech</p>
+                    <span class="project-category">Design</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-category="web">
+                <img src="https://picsum.photos/400/300?random=4" alt="Projet 4">
+                <div class="project-info">
+                    <h3>Dashboard Analytics</h3>
+                    <p>Interface de visualisation de données en temps réel</p>
+                    <span class="project-category">Web</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-category="mobile">
+                <img src="https://picsum.photos/400/300?random=5" alt="Projet 5">
+                <div class="project-info">
+                    <h3>App Météo</h3>
+                    <p>Application météo avec prévisions détaillées</p>
+                    <span class="project-category">Mobile</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-category="design">
+                <img src="https://picsum.photos/400/300?random=6" alt="Projet 6">
+                <div class="project-info">
+                    <h3>Redesign Logo</h3>
+                    <p>Refonte de l'identité visuelle d'une marque établie</p>
+                    <span class="project-category">Design</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="cta">
-        <div>
-            <h2 class="cta-title">Prêt à commencer ?</h2>
-            <button class="cta-button">Démarrer maintenant</button>
-        </div>
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2>Contactez-moi</h2>
+
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="name">Nom</label>
+                <input type="text" id="name" name="name" required>
+                <span class="error-message" id="nameError">Veuillez entrer votre nom</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-message" id="emailError">Veuillez entrer un email valide</span>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+                <span class="error-message" id="messageError">Veuillez entrer un message</span>
+            </div>
+
+            <button type="submit" class="submit-btn">Envoyer</button>
+        </form>
+
+        <div class="success-message" id="successMessage">✓ Message envoyé avec succès !</div>
     </section>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-        <script>
-            // récuperer le bouton
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
 
-            const menuBtn = $('.menu-btn');
+        // ========================================
+        // 1. ANIMATION HERO AU CHARGEMENT
+        // ========================================
+        $(document).ready(function () {
+            const heroTl = gsap.timeline();
 
-            // animer laffichage du menu au click du btn 
+            heroTl.fromTo('.hero h1',
+                { opacity: 0, y: -50 },
+                { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
+            )
+                .fromTo('.hero p',
+                    { opacity: 0, y: -30 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+                    '-=0.5'
+                )
+                .fromTo('.hero-cta',
+                    { opacity: 0, scale: 0 },
+                    { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
+                    '-=0.3'
+                );
+        });
 
-            menuBtn.on('click', function () {
+        // ========================================
+        // 2. MENU NAVIGATION ANIMÉ
+        // ========================================
+        const menuBtn = $('.menu-btn');
+        const closeBtn = $('.close-menu');
 
-                // avec gsap, entrée du menu par la droite + stagger
-
-                gsap.to('.menu',
-                    {
-                        duration: 0.5,
-                        right: 0,
-                        ease: "power2.out"
-                    });
-                gsap.to('.menu li',
-                    {
-                        duration: 0.5,
-                        x: 0,
-                        opacity: 1,
-                        stagger: 0.1,
-                        delay: 0.2,
-                        ease: "power2.out"
-                    });
+        // Ouverture du menu
+        menuBtn.on('click', function () {
+            gsap.to('.menu', {
+                duration: 0.5,
+                right: 0,
+                ease: "power2.out"
             });
-
-            // recuperer btn close menu 
-
-            const closeBtn = $('.close-menu');
-
-            // animer fermeture 
-
-            closeBtn.on('click', function () {
-
-                // avec gsap, sortie du menu par la droite + masquer element de la liste
-
-                gsap.to('.menu li',
-                    {
-                        duration: 0.3,
-                        x: 50,
-                        opacity: 0,
-                        stagger: 0.1,
-                        ease: "power2.in"
-                    });
-                gsap.to('.menu',
-                    {
-                        duration: 0.3,
-                        right: -300,
-                        delay: 0.2,
-                        ease: "power2.in"
-                    });
+            gsap.to('.menu li', {
+                duration: 0.5,
+                x: 0,
+                opacity: 1,
+                stagger: 0.1,
+                delay: 0.2,
+                ease: "power2.out"
             });
+        });
 
-            // recup du btn suivant et precedent
-            const nextBtn = $('#next');
-            const prevBtn = $('#prev');
-
-            // recup des slides 
-            const slides = $('.carousel-slides');
-
-            // index de la slide actuelle
-            let currentIndex = 0;
-            const totalSlides = $('.slide').length;
-
-            // event click suivant
-
-            nextBtn.on('click', function () {
-                currentIndex = (currentIndex + 1) % totalSlides;
-                updateCarousel();
+        // Fermeture du menu
+        closeBtn.on('click', function () {
+            gsap.to('.menu li', {
+                duration: 0.3,
+                x: 50,
+                opacity: 0,
+                stagger: 0.1,
+                ease: "power2.in"
             });
-
-            // event retour
-
-            prevBtn.on('click', function () {
-                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-                updateCarousel();
+            gsap.to('.menu', {
+                duration: 0.3,
+                right: -350,
+                delay: 0.2,
+                ease: "power2.in"
             });
+        });
 
-            // fonction MAJcarousel
-            function updateCarousel() {
-                const offset = -currentIndex * 600; // largeur de chaque slide
-                gsap.to(slides, {
-                    duration: 0.5,
-                    x: offset,
-                    ease: "power2.out"
+        // Navigation vers les sections
+        $('.menu li').on('click', function () {
+            const section = $(this).data('section');
+            const targetSection = $('#' + section);
+
+            // Scroll vers la section
+            $('html, body').animate({
+                scrollTop: targetSection.offset().top
+            }, 1000);
+
+            // Fermer le menu
+            closeBtn.click();
+        });
+
+        // CTA Hero scroll vers portfolio
+        $('.hero-cta').on('click', function () {
+            $('html, body').animate({
+                scrollTop: $('#portfolio').offset().top
+            }, 1000);
+        });
+
+        // ========================================
+        // 3. FILTRAGE DES PROJETS (jQuery)
+        // ========================================
+        $('.filter-btn').on('click', function () {
+            const filter = $(this).data('filter');
+
+            // Update boutons actifs
+            $('.filter-btn').removeClass('active');
+            $(this).addClass('active');
+
+            // Filtrer les projets avec jQuery
+            if (filter === 'all') {
+                // Animer disparition puis apparition avec GSAP
+                gsap.to('.project-card', {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 0.3,
+                    onComplete: function () {
+                        $('.project-card').show();
+                        gsap.to('.project-card', {
+                            opacity: 1,
+                            scale: 1,
+                            duration: 0.5,
+                            stagger: 0.1,
+                            ease: 'back.out(1.7)'
+                        });
+                    }
                 });
+            } else {
+                // Masquer toutes les cartes d'abord
+                gsap.to('.project-card', {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 0.3,
+                    onComplete: function () {
+                        // Masquer celles qui ne correspondent pas
+                        $('.project-card').each(function () {
+                            if ($(this).data('category') !== filter) {
+                                $(this).hide();
+                            } else {
+                                $(this).show();
+                            }
+                        });
 
-                // mettre à jour les points
-                $('.dot').removeClass('active');
-                $(`.dot[data-index=${currentIndex}]`).addClass('active');
+                        // Animer l'apparition des cartes filtrées
+                        gsap.to('.project-card:visible', {
+                            opacity: 1,
+                            scale: 1,
+                            duration: 0.5,
+                            stagger: 0.15,
+                            ease: 'back.out(1.7)'
+                        });
+                    }
+                });
+            }
+        });
+
+        // ========================================
+        // 4. ANIMATIONS AU SCROLL (ScrollTrigger)
+        // ========================================
+
+        // Animation titre portfolio
+        gsap.fromTo('.portfolio h2',
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '.portfolio h2',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+
+        // Animation boutons de filtre
+        gsap.fromTo('.filter-btn',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.filter-buttons',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+
+        // Animation cartes projets
+        gsap.fromTo('.project-card',
+            { opacity: 0, y: 50, scale: 0.9 },
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.projects-grid',
+                    start: 'top 70%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+
+        // Animation section contact
+        gsap.fromTo('.contact h2',
+            { opacity: 0, scale: 0.5 },
+            {
+                opacity: 1,
+                scale: 1,
+                duration: 1,
+                ease: 'back.out(1.7)',
+                scrollTrigger: {
+                    trigger: '.contact h2',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+
+        gsap.fromTo('.contact-form',
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '.contact-form',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+
+        // ========================================
+        // 5. VALIDATION ET ANIMATION FORMULAIRE
+        // ========================================
+        $('#contactForm').on('submit', function (e) {
+            e.preventDefault();
+
+            // Réinitialiser les erreurs
+            $('.error-message').hide();
+            let isValid = true;
+
+            // Validation du nom
+            const name = $('#name').val().trim();
+            if (name.length < 2) {
+                $('#nameError').show();
+                gsap.fromTo('#nameError', { x: -10 }, { x: 10, duration: 0.1, repeat: 5, yoyo: true });
+                isValid = false;
             }
 
-            // nav sur les dots 
+            // Validation de l'email
+            const email = $('#email').val().trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                $('#emailError').show();
+                gsap.fromTo('#emailError', { x: -10 }, { x: 10, duration: 0.1, repeat: 5, yoyo: true });
+                isValid = false;
+            }
 
-            $('.dot').on('click', function () {
-                currentIndex = $(this).data('index');
-                updateCarousel();
+            // Validation du message
+            const message = $('#message').val().trim();
+            if (message.length < 10) {
+                $('#messageError').text('Le message doit contenir au moins 10 caractères');
+                $('#messageError').show();
+                gsap.fromTo('#messageError', { x: -10 }, { x: 10, duration: 0.1, repeat: 5, yoyo: true });
+                isValid = false;
+            }
+
+            // Si tout est valide
+            if (isValid) {
+                // Animer le bouton submit
+                gsap.to('.submit-btn', {
+                    scale: 0.95,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 1
+                });
+
+                // Animer la disparition du formulaire
+                gsap.to('.contact-form', {
+                    opacity: 0,
+                    y: -30,
+                    duration: 0.5,
+                    onComplete: function () {
+                        // Afficher le message de succès
+                        $('#successMessage').show();
+                        gsap.fromTo('#successMessage',
+                            { scale: 0, opacity: 0 },
+                            { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(2)' }
+                        );
+
+                        // Réinitialiser le formulaire après 3 secondes
+                        setTimeout(function () {
+                            $('#contactForm')[0].reset();
+                            gsap.to('#successMessage', {
+                                opacity: 0,
+                                duration: 0.5,
+                                onComplete: function () {
+                                    $('#successMessage').hide();
+                                    gsap.to('.contact-form', {
+                                        opacity: 1,
+                                        y: 0,
+                                        duration: 0.5
+                                    });
+                                }
+                            });
+                        }, 3000);
+                    }
+                });
+            }
+        });
+
+        // Animation des inputs au focus
+        $('.contact-form input, .contact-form textarea').on('focus', function () {
+            gsap.to($(this), {
+                scale: 1.02,
+                duration: 0.3,
+                ease: 'power2.out'
             });
+        });
 
-            // Bonus : Ajouter un défilement automatique toutes les 3 secondes
+        $('.contact-form input, .contact-form textarea').on('blur', function () {
+            gsap.to($(this), {
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
 
-            // setInterval(function () {
-            //     currentIndex = (currentIndex + 1) % totalSlides;
-            //     updateCarousel();
-            // }, 3000);
-
-
-
-            // Bonus : Mettre en pause le défilement au survol
-
-            let autoSlide = setInterval(function () {
-                currentIndex = (currentIndex + 1) % totalSlides;
-                updateCarousel();
-            }, 3000);
-
-            $('.carousel-container').hover(
-                function () {
-                    // mouseenter - pause l'auto-scroll
-                    clearInterval(autoSlide);
-                },
-                function () {
-                    // mouseleave - redémarre l'auto-scroll
-                    autoSlide = setInterval(function () {
-                        currentIndex = (currentIndex + 1) % totalSlides;
-                        updateCarousel();
-                    }, 3000);
-                }
-            );
-
-        </script>
-    </body>
+    </script>
+</body>
 
 </html>
