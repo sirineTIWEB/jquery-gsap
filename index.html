@@ -55,6 +55,63 @@
             font-size: 30px;
             cursor: pointer;
         }
+
+        .carousel-container {
+            max-width: 600px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .carousel-slides {
+            display: flex;
+            width: 400%;
+            /* 4 images */
+        }
+
+        .slide {
+            width: 25%;
+            /* 100% / 4 */
+            flex-shrink: 0;
+        }
+
+        .slide img {
+            width: 100%;
+            display: block;
+        }
+
+        .carousel-nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .carousel-nav button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .dots {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: #3498db;
+        }
     </style>
 </head>
 
@@ -72,60 +129,87 @@
         </ul>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script>
-        // récuperer le bouton
+    <body>
+        <div class="carousel-container">
+            <div class="carousel-slides">
+                <div class="slide"><img src="https://picsum.photos/600/400?random=1" alt="Image 1"></div>
+                <div class="slide"><img src="https://picsum.photos/600/400?random=2" alt="Image 2"></div>
+                <div class="slide"><img src="https://picsum.photos/600/400?random=3" alt="Image 3"></div>
+                <div class="slide"><img src="https://picsum.photos/600/400?random=4" alt="Image 4"></div>
+            </div>
+        </div>
 
-        const menuBtn = $('.menu-btn');
+        <div class="carousel-nav">
+            <button id="prev">← Précédent</button>
+            <button id="next">Suivant →</button>
+        </div>
 
-        // animer laffichage du menu au click du btn 
+        <div class="dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+        </div>
 
-        menuBtn.on('click', function () {
 
-            // avec gsap, entrée du menu par la droite + stagger
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script>
+            // récuperer le bouton
 
-            gsap.to('.menu',
-            { duration: 0.5,
-                right: 0,
-                ease: "power2.out"
+            const menuBtn = $('.menu-btn');
+
+            // animer laffichage du menu au click du btn 
+
+            menuBtn.on('click', function () {
+
+                // avec gsap, entrée du menu par la droite + stagger
+
+                gsap.to('.menu',
+                    {
+                        duration: 0.5,
+                        right: 0,
+                        ease: "power2.out"
+                    });
+                gsap.to('.menu li',
+                    {
+                        duration: 0.5,
+                        x: 0,
+                        opacity: 1,
+                        stagger: 0.1,
+                        delay: 0.2,
+                        ease: "power2.out"
+                    });
             });
-            gsap.to('.menu li',
-            { duration: 0.5,
-                x: 0,
-                opacity: 1,
-                stagger: 0.1,
-                delay: 0.2,
-                ease: "power2.out"
+
+            // recuperer btn close menu 
+
+            const closeBtn = $('.close-menu');
+
+            // animer fermeture 
+
+            closeBtn.on('click', function () {
+
+                // avec gsap, sortie du menu par la droite + masquer element de la liste
+
+                gsap.to('.menu li',
+                    {
+                        duration: 0.3,
+                        x: 50,
+                        opacity: 0,
+                        stagger: 0.1,
+                        ease: "power2.in"
+                    });
+                gsap.to('.menu',
+                    {
+                        duration: 0.3,
+                        right: -300,
+                        delay: 0.2,
+                        ease: "power2.in"
+                    });
             });
-        });
 
-        // recuperer btn close menu 
-
-        const closeBtn = $('.close-menu');
-
-        // animer fermeture 
-
-        closeBtn.on('click', function () {
-
-            // avec gsap, sortie du menu par la droite + masquer element de la liste
-
-            gsap.to('.menu li',
-            { duration: 0.3,
-                x: 50,
-                opacity: 0,
-                stagger: 0.1,
-                ease: "power2.in"
-            });
-            gsap.to('.menu',
-            { duration: 0.3,
-                right: -300,
-                delay: 0.2,
-                ease: "power2.in"
-            });
-        });
-
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
