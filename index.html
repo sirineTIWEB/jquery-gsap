@@ -112,6 +112,66 @@
         .dot.active {
             background: #3498db;
         }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            background: #f8f9fa;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .cta {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+        }
+
+        .cta-button {
+            padding: 20px 50px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -151,7 +211,41 @@
             <span class="dot" data-index="3"></span>
         </div>
 
+    <section class="hero">
+        <div>
+            <h1 class="hero-title">Bienvenue sur notre site</h1>
+            <p class="hero-subtitle">Des animations fluides avec GSAP et jQuery</p>
+        </div>
+    </section>
 
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Rapide</h3>
+                <p>Performance optimale garantie</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Design moderne</h3>
+                <p>Interface élégante et intuitive</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Facile</h3>
+                <p>Simple à utiliser et à personnaliser</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div>
+            <h2 class="cta-title">Prêt à commencer ?</h2>
+            <button class="cta-button">Démarrer maintenant</button>
+        </div>
+    </section>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
         <script>
@@ -263,7 +357,7 @@
             // }, 3000);
 
 
-            
+
             // Bonus : Mettre en pause le défilement au survol
 
             let autoSlide = setInterval(function () {
