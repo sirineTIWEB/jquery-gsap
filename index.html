@@ -73,6 +73,7 @@
             color: white;
             font-size: 35px;
             cursor: pointer;
+            z-index: 1001;
         }
 
         /* HERO SECTION */
@@ -441,9 +442,11 @@
         // ========================================
         const menuBtn = $('.menu-btn');
         const closeBtn = $('.close-menu');
+        let isMenuOpen = false;
 
-        // Ouverture du menu
-        menuBtn.on('click', function () {
+        // Fonction pour ouvrir le menu
+        function openMenu() {
+            isMenuOpen = true;
             gsap.to('.menu', {
                 duration: 0.5,
                 right: 0,
@@ -457,10 +460,11 @@
                 delay: 0.2,
                 ease: "power2.out"
             });
-        });
+        }
 
-        // Fermeture du menu
-        closeBtn.on('click', function () {
+        // Fonction pour fermer le menu
+        function closeMenu() {
+            isMenuOpen = false;
             gsap.to('.menu li', {
                 duration: 0.3,
                 x: 50,
@@ -474,6 +478,20 @@
                 delay: 0.2,
                 ease: "power2.in"
             });
+        }
+
+        // Toggle du menu avec le bouton principal
+        menuBtn.on('click', function () {
+            if (isMenuOpen) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        // Fermeture avec le bouton close
+        closeBtn.on('click', function () {
+            closeMenu();
         });
 
         // Navigation vers les sections
@@ -487,7 +505,7 @@
             }, 1000);
 
             // Fermer le menu
-            closeBtn.click();
+            closeMenu();
         });
 
         // CTA Hero scroll vers portfolio
